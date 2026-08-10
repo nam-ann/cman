@@ -145,7 +145,7 @@ std::unordered_map<std::string_view, int> const to_do_map = {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::println("\033[91m[cman] \033[31mUsage: {} [ option ]\033[0m"sv, argv[0]);
+        std::println("\033[96m[cman] \033[36mUsage: {} [ option ]\033[0m"sv, argv[0]);
         return 1;
     }
 
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
     
     case 3: {
         if (argc < 5) {
-            std::println("\033[91m[cman] \033[31mUsage: {} build [ compile_type ] [ dependencies ] [ compiler ]\033[0m"sv, argv[0]);
+            std::println("\033[96m[cman] \033[36mUsage: {} build [ compile_type ] [ dependencies ] [ compiler ]\033[0m"sv, argv[0]);
             return 1;
         }
 
