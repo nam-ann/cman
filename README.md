@@ -1,6 +1,7 @@
 # cman
 
 An ultralightweight C++ build tool in pure C++23
+Link: https://github.com/nam-ann/cman
 
 ## License
 
