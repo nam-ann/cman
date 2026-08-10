@@ -168,6 +168,17 @@ int main(int argc, char* argv[]) {
     case 2: fs::remove_all("out"); break;
     
     case 3: {
+        auto const compile_type = compile_type_map.at(argv[2]);
+
+        if (compile_type == 0) {
+			std::println("\033[96m[cman] \033[36mUsage: {} build [ compile_type ] [ dependencies ] [ compiler ]\033[0m"sv, argv[0]);
+			std::println("    \033[96m|> \033[36m---- Compile type ----\033[0m"sv);
+			std::println("\033[96m[cman] \033[36mdynlnk\033[90m  # Compile and link as a dynamic library (dll/so)\033[0m"sv);
+			std::println("\033[96m[cman] \033[36mstatlnk\033[90m # Compile and link as a static library (lib/a)\033[0m"sv);
+			std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
+			return 1;
+        }
+
         if (argc < 5) {
             std::println("\033[96m[cman] \033[36mUsage: {} build [ compile_type ] [ dependencies ] [ compiler ]\033[0m"sv, argv[0]);
             return 1;
@@ -320,15 +331,7 @@ int main(int argc, char* argv[]) {
 
         auto all_link_inputs = obj_files + static_lib_files;
 
-        switch (compile_type_map.at(argv[2])) {
-        case 0: {
-            std::println("\033[96m[cman] \033[36mUsage: {} [ option ]\033[0m"sv, argv[0]);
-            std::println("    \033[96m|> \033[36m---- Compile type ----\033[0m"sv);
-            std::println("\033[96m[cman] \033[36mdynlnk\033[90m  # Compile and link as a dynamic library (dll/so)\033[0m"sv);
-            std::println("\033[96m[cman] \033[36mstatlnk\033[90m # Compile and link as a static library (lib/a)\033[0m"sv);
-            std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
-            break;
-        }
+        switch (compile_type) {
         case 1: {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[2], all_link_inputs, "out/program"sv);
