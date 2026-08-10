@@ -129,9 +129,10 @@ static auto dyn_format(std::string_view fmt, Args&&... args) {
 }
 
 std::unordered_map<std::string_view, int> const compile_type_map = {
-    {"dynlnk"sv,  0},
-    {"statlnk"sv, 1},
-    {"exec"sv,    2}
+    {"help"sv,    0},
+    {"dynlnk"sv,  1},
+    {"statlnk"sv, 2},
+    {"exec"sv,    3}
 };
 
 std::unordered_map<std::string_view, int> const to_do_map = {
@@ -156,11 +157,11 @@ int main(int argc, char* argv[]) {
 
     switch (to_do_map.at(argv[1])) {
     case 0:
-        std::println("\033[96m[cman] \033[36mUsage: {} [ option ]\033[0m\n"sv, argv[0]);
+        std::println("\033[96m[cman] \033[36mUsage: {} [ option ]\033[0m"sv, argv[0]);
         std::println("    \033[96m|> \033[36m---- Options ----\033[0m"sv);
-        std::println("\033[96m[cman] \033[36mdynlnk\033[90m  # Compile and link as a dynamic library (dll/so)\033[0m"sv);
-        std::println("\033[96m[cman] \033[36mstatlnk\033[90m # Compile and link as a static library (lib/a)\033[0m"sv);
-        std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
+        std::println("\033[96m[cman] \033[36mhelp\033[90m    # Just print something like this\033[0m"sv);
+        std::println("\033[96m[cman] \033[36mversion\033[90m # Show the version information\033[0m"sv);
+        std::println("\033[96m[cman] \033[36mbuild\033[90m   # Build the project\033[0m"sv);
         break;
     
     case 1: std::println("\033[96m[cman] \033[36mVersion: " CMAN_VERSION "\033[0m"sv); break;
@@ -321,6 +322,14 @@ int main(int argc, char* argv[]) {
 
         switch (compile_type_map.at(argv[2])) {
         case 0: {
+            std::println("\033[96m[cman] \033[36mUsage: {} [ option ]\033[0m"sv, argv[0]);
+            std::println("    \033[96m|> \033[36m---- Compile type ----\033[0m"sv);
+            std::println("\033[96m[cman] \033[36mdynlnk\033[90m  # Compile and link as a dynamic library (dll/so)\033[0m"sv);
+            std::println("\033[96m[cman] \033[36mstatlnk\033[90m # Compile and link as a static library (lib/a)\033[0m"sv);
+            std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
+            break;
+        }
+        case 1: {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[2], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Dynamic Library...\033[0m"sv);
@@ -329,7 +338,7 @@ int main(int argc, char* argv[]) {
 
             break;
         }
-        case 1: {
+        case 2: {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[3], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Static Library...\033[0m"sv);
@@ -338,7 +347,7 @@ int main(int argc, char* argv[]) {
 
             break;
         }
-        case 2: {
+        case 3: {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[5], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Executable...\033[0m"sv);
