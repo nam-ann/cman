@@ -195,10 +195,12 @@ int main(int argc, char* argv[]) {
         auto include_paths = std::vector<std::string>();
 
         auto scan_deps = [&](this auto&& self, std::vector<std::string>& deps_paths) -> void {
-            auto internal_deps_paths = std::move(deps_paths);
-
             for (auto& path : deps_paths) {
                 if (path.ends_with(".cdeps"sv)) {
+                    if (fs::path(path) == fs::path(argv[3])) {
+						std::println("\033[93m[cman] \033[33mWarning: Circular dependency detected in '{}'\033[0m"sv, path);
+                        continue;
+                    }
                     auto sub_deps = parse_tree_paths(read_lines(path));
                     self(sub_deps);
                 }
