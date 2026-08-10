@@ -99,6 +99,13 @@ Defines command-line templates for your specific C++ toolchain using indexed pla
 * `{0}`: Input source file / object inputs
 * `{1}`: Output object file / target binary
 
+* line 1: Build Source
+* line 2: Build Module
+* line 3: Export dynamic link
+* line 4: Export static link
+* line 5: Add include directory
+* line 6: Export executable
+
 **Example for GCC:**
 ```text
 g++ -std=c++23 -fmodules-ts -c "{0}" -o "{1}" -MMD -MF "{1}.d"
