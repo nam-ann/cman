@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
     switch (to_do_map.at(argv[1])) {
     case 0:
         std::println("\033[96m[cman] \033[36mUsage: {} [ option ]\033[0m\n"sv, argv[0]);
-        std::println("\033[96m[cman] \033[36m---- Options ----\033[0m"sv);
+        std::println("    \033[96m|> \033[36m---- Options ----\033[0m"sv);
         std::println("\033[96m[cman] \033[36mdynlnk\033[90m  # Compile and link as a dynamic library (dll/so)\033[0m"sv);
         std::println("\033[96m[cman] \033[36mstatlnk\033[90m # Compile and link as a static library (lib/a)\033[0m"sv);
         std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
@@ -200,11 +200,33 @@ int main(int argc, char* argv[]) {
         auto static_lib_files = ""s;
         auto include_paths = std::vector<std::string>();
 
+        auto dep_stack = std::vector<std::string_view>();
+
         auto scan_deps = [&](this auto&& self, std::vector<std::string>& deps_paths) -> void {
             for (auto& path : deps_paths) {
                 if (path.ends_with(".cdeps"sv)) {
+                    if (auto it = std::find(dep_stack.begin(), dep_stack.end(), path); it != dep_stack.end()) {
+						if (path == dep_stack.back()) {
+							std::println("\033[93m[cman] \033[33mWarning: Self dependency detected in {}\033[0m"sv, path);
+                            continue;
+						}
+
+                        std::println("\033[93m[cman] \033[33mWarning: Circular dependency detected in {}\033[0m"sv, path);
+
+                        for (auto i : std::ranges::views::iota(it + 1, dep_stack.end())) {
+                            std::println("    \033[93m|> \033[33m{}\033[0m", *i);
+                        }
+
+                        std::println("    \033[93m|> \033[33m{}\033[0m", path);
+                        continue;
+                    }
+
+                    dep_stack.emplace_back(path);
+
                     auto sub_deps = parse_tree_paths(read_lines(path));
                     self(sub_deps);
+
+                    dep_stack.pop_back();
                 }
                 else if (path.ends_with(".lib"sv) or path.ends_with(".a"sv)) {
                     static_lib_files += std::format("\"{}\" "sv, path);
