@@ -1,10 +1,14 @@
 \# cman
 
+
+
 An ultralightweight C++ build tool in pure C++23
 
 
 
 \## Status
+
+
 
 Stable
 
@@ -12,7 +16,11 @@ Stable
 
 \## License
 
+
+
 MIT License
+
+
 
 >  Copyright (c) 2026 nam-ann
 
@@ -87,10 +95,6 @@ cman clean
 \# Build a project
 
 cman build \[compile\_type] \[dependencies] \[compiler]
-
-'''
-
-
 
 ```
 
