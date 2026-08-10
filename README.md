@@ -33,12 +33,12 @@ Nah bro it's only one cpp file, don't tell me you don't even know how to compile
 
 **Example for Windows:**
 ```bash
-g++ -std=c++23 -fmodules-ts -c main.cpp -static -o cman.exe
+g++ -std=c++23 -fmodules-ts main.cpp -static -o cman.exe
 ```
 
 **Example for Linux-based OS:**
 ```bash
-g++ -std=c++23 -fmodules-ts -c main.cpp -static -o cman
+g++ -std=c++23 -fmodules-ts main.cpp -static -o cman
 ```
 
 Or using MSVC(cl) or Clang (clang++) idc
