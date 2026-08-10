@@ -365,3 +365,6 @@ FodyWeavers.xsd
 .vcxproj
 .vcxproj.filters
 .slnx
+/cman.slnx
+/cman.vcxproj
+/cman.vcxproj.filters
