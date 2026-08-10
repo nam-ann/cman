@@ -63,7 +63,7 @@ When running `cman build`, specify one of the following compilation modes:
 
 `cman` uses simple plain-text configuration files to drive the build pipeline.
 
-#### A. Target Dependencies (`.cdeps`)
+#### A. Target Dependencies (`<your project name>.cdeps`)
 Defines the directory layout and source files using indented tree paths and wildcards.
 
 ```text
@@ -85,7 +85,7 @@ Defines command-line templates for your specific C++ toolchain using indexed pla
 * `{0}`: Input source file / object inputs
 * `{1}`: Output object file / target binary
 
-**Example for GCC (`gcc_compiler.txt`):**
+**Example for GCC:**
 ```text
 g++ -std=c++23 -fmodules-ts -c "{0}" -o "{1}" -MMD -MF "{1}.d"
 g++ -std=c++23 -fmodules-ts -c "{0}" -o "{1}" -MMD -MF "{1}.d"
@@ -95,7 +95,7 @@ ar rcs "{1}.a" {0}
 g++ {0} -o "{1}.exe" -lstdc++exp -Wl,--allow-multiple-definition
 ```
 
-**Example for MSVC (`msvc_compiler.txt`):**
+**Example for MSVC:**
 ```text
 cl /std:c++latest /nologo /EHsc /MT /c "{0}" /Fo"{1}" /sourceDependencies "{1}.d"
 cl /std:c++latest /nologo /EHsc /MT /c /TP /interface "{0}" /Fo"{1}" /sourceDependencies "{1}.d"
@@ -115,14 +115,8 @@ Gathers project `.cdeps` and environment module definitions into a single build 
 
 ### 4. Build Examples
 
-**Building an Executable with GCC:**
 ```bash
-cman build exec gcc_deps.txt gcc_compiler.txt
-```
-
-**Building an Executable with MSVC:**
-```bash
-cman build exec msvc_deps.txt msvc_compiler.txt
+cman build exec deps.txt compiler.txt
 ```
 
 ## Support
