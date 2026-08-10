@@ -174,17 +174,8 @@ int main(int argc, char* argv[]) {
         auto const deps_path = fs::path(argv[3]);
         auto const compiler_path = fs::path(argv[4]);
 
-        auto const raw_deps_lines = read_lines(deps_path);
+        auto const cdeps_lines = read_lines(deps_path);
         auto const compiler_cmds = read_lines(compiler_path);
-
-        auto cdeps_lines = std::vector<std::string>();
-        for (auto const& line : raw_deps_lines) {
-            if (line.ends_with(".cdeps"sv)) {
-                auto sub_lines = read_lines(line);
-                cdeps_lines.insert(cdeps_lines.end(), sub_lines.begin(), sub_lines.end());
-            }
-            else cdeps_lines.push_back(line);
-        }
 
         auto deps_paths = parse_tree_paths(cdeps_lines);
 
@@ -203,18 +194,28 @@ int main(int argc, char* argv[]) {
         auto static_lib_files = ""s;
         auto include_paths = std::vector<std::string>();
 
-        for (auto& path : deps_paths) {
-            if (path.ends_with(".lib"sv) or path.ends_with(".a"sv)) {
-                static_lib_files += std::format("\"{}\" "sv, path);
+        auto scan_deps = [&](this auto&& self, std::vector<std::string>& deps_paths) -> void {
+            auto internal_deps_paths = std::move(deps_paths);
+
+            for (auto& path : deps_paths) {
+                if (path.ends_with(".cdeps"sv)) {
+                    auto sub_deps = parse_tree_paths(read_lines(path));
+                    self(sub_deps);
+                }
+                else if (path.ends_with(".lib"sv) or path.ends_with(".a"sv)) {
+                    static_lib_files += std::format("\"{}\" "sv, path);
+                }
+                else if (path.ends_with(".inc"sv)) {
+                    include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
+                }
+                else if (path.ends_with(".cpp"sv) or path.ends_with(".cxx"sv)) {
+                    cpp_files.emplace_back(std::move(path));
+                }
+                else cppm_files.emplace_back(std::move(path));
             }
-            else if (path.ends_with(".inc"sv)) {
-                include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
-            }
-            else if (path.ends_with(".cpp"sv) or path.ends_with(".cxx"sv)) {
-                cpp_files.emplace_back(std::move(path));
-            }
-            else cppm_files.emplace_back(std::move(path));
-        }
+        };
+
+        scan_deps(deps_paths);
 
         auto include_flags = ""s;
         if (compiler_cmds.size() >= 5 and not include_paths.empty()) {
@@ -313,7 +314,7 @@ int main(int argc, char* argv[]) {
         }
         case 2: {
             if (compiler_cmds.size() >= 6) {
-                auto final_cmd = dyn_format(compiler_cmds[5], all_link_inputs, "out/program"sv);
+                auto final_cmd = dyn_format(compiler_cmds[7], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Executable...\033[0m"sv);
                 std::system(final_cmd.data());
             }
