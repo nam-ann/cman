@@ -197,10 +197,6 @@ int main(int argc, char* argv[]) {
         auto scan_deps = [&](this auto&& self, std::vector<std::string>& deps_paths) -> void {
             for (auto& path : deps_paths) {
                 if (path.ends_with(".cdeps"sv)) {
-                    if (fs::path(path) == fs::path(argv[3])) {
-						std::println("\033[93m[cman] \033[33mWarning: Circular dependency detected in '{}'\033[0m"sv, path);
-                        continue;
-                    }
                     auto sub_deps = parse_tree_paths(read_lines(path));
                     self(sub_deps);
                 }
@@ -316,7 +312,7 @@ int main(int argc, char* argv[]) {
         }
         case 2: {
             if (compiler_cmds.size() >= 6) {
-                auto final_cmd = dyn_format(compiler_cmds[7], all_link_inputs, "out/program"sv);
+                auto final_cmd = dyn_format(compiler_cmds[5], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Executable...\033[0m"sv);
                 std::system(final_cmd.data());
             }
