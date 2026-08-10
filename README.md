@@ -99,6 +99,7 @@ Defines command-line templates for your specific C++ toolchain using indexed pla
 * `{0}`: Input source file / object inputs
 * `{1}`: Output object file / target binary
 
+And lines
 * line 1: Build Source
 * line 2: Build Module
 * line 3: Export dynamic link
