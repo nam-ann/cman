@@ -43,7 +43,7 @@ g++ -std=c++23 -fmodules-ts main.cpp -static -o cman
 
 Or using MSVC(cl) or Clang (clang++) idc
 
-### 1. Basic Commands
+### 2. Basic Commands
 
 cman provides a straightforward CLI for cleaning and building your targets.
 
@@ -61,7 +61,7 @@ cman clean
 cman build [compile_type] [dependencies] [compiler]
 ```
 
-### 2. Compile Types
+### 3. Compile Types
 
 When running `cman build`, specify one of the following compilation modes:
 
@@ -71,7 +71,7 @@ When running `cman build`, specify one of the following compilation modes:
 | `dynlnk` | Dynamic Library | Builds dynamic shared library (`.dll` / `.so`) |
 | `statlnk` | Static Library | Builds static library archive (`.lib` / `.a`) |
 
-### 3. Configuration Files
+### 4. Configuration Files
 
 `cman` uses simple plain-text configuration files to drive the build pipeline.
 
@@ -127,7 +127,7 @@ lib /nologo /OUT:"{1}.lib" {0}
 link /nologo /OUT:"{1}.exe" {0}
 ```
 
-### 4. Build Examples
+### 5. Build Examples
 
 ```bash
 cman build exec <your cdeps>.cdeps compiler.txt
