@@ -2,10 +2,6 @@
 
 An ultralightweight C++ build tool in pure C++23
 
-## Status
-
-Stable
-
 ## License
 
 MIT License
@@ -33,7 +29,7 @@ MIT License
 ## Usage
 ### 1. Build
 
-nah bro it's only one cpp file, don't tell me you don't even know how to compile.
+Nah bro it's only one cpp file, don't tell me you don't even know how to compile.
 
 **Example for Windows:**
 ```bash
@@ -44,6 +40,8 @@ g++ -std=c++23 -fmodules-ts -c main.cpp -static -o cman.exe
 ```bash
 g++ -std=c++23 -fmodules-ts -c main.cpp -static -o cman
 ```
+
+Or using MSVC(cl) or Clang (clang++) idc
 
 ### 1. Basic Commands
 
