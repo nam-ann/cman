@@ -31,7 +31,7 @@ MIT License
 >  THE SOFTWARE.
 
 ## Usage
-### Basic Commands
+### 1. Basic Commands
 
 cman provides a straightforward CLI for cleaning and building your targets.
 
