@@ -42,7 +42,7 @@ cman help
 # Show cman version
 cman version
 
-# Clean build artifacts (removes the `out/` directory)
+# Clean build artifacts (removes the out/ directory)
 cman clean
 
 # Build a project
@@ -72,7 +72,13 @@ src/
     *.cpp
 module/
     main.cppm
-    a.cppm
+lib/
+    some/
+        include/
+            .inc
+        bin/
+            some.lib
+            some.a
 ```
 
 #### B. Compiler Template (`compiler.txt`)
@@ -105,9 +111,8 @@ link /nologo /OUT:"{1}.exe" {0}
 Gathers project `.cdeps` and environment module definitions into a single build entry point.
 
 ```text
-# gcc_deps.txt
-gcc.cdeps
-cmain.cdeps
+<your project>.cdeps
+[ <your library>.cdeps ]...
 ```
 
 ### 4. Build Examples
@@ -120,11 +125,6 @@ cman build exec gcc_deps.txt gcc_compiler.txt
 **Building an Executable with MSVC:**
 ```bash
 cman build exec msvc_deps.txt msvc_compiler.txt
-```
-
-**Cleaning and Rebuilding in One Line:**
-```bash
-cman clean && cman build exec deps.txt compiler.txt
 ```
 
 ## Support
