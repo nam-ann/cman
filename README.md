@@ -31,6 +31,20 @@ MIT License
 >  THE SOFTWARE.
 
 ## Usage
+### 1. Build
+
+nah bro it's only one cpp file, don't tell me you don't even know how to compile.
+
+**Example for Windows:**
+```bash
+g++ -std=c++23 -fmodules-ts -c main.cpp -static -o cman.exe
+```
+
+**Example for Linux-based OS:**
+```bash
+g++ -std=c++23 -fmodules-ts -c main.cpp -static -o cman
+```
+
 ### 1. Basic Commands
 
 cman provides a straightforward CLI for cleaning and building your targets.

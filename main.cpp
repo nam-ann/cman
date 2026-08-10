@@ -79,7 +79,7 @@ static auto parse_tree_paths(std::vector<std::string> const& input, int indent_s
         if (first_char == std::string::npos) continue;
 
         auto spaces = 0;
-        for (auto i = size_t(0); i < first_char; ++i) {
+        for (auto i = 0ULL; i < first_char; ++i) {
             if (line[i] == '\t') spaces += indent_size;
             else spaces += 1;
         }
@@ -236,7 +236,7 @@ int main(int argc, char* argv[]) {
                     std::println("\033[96m[cman] \033[36mCompiling Module: {}\033[0m"sv, file);
                     
                     fs::remove(out_path);
-                    system(cmd.data());
+                    std::system(cmd.data());
 
                     if (not fs::exists(out_path)) {
                         std::println("\033[91m[cman] \033[31mError: Object file is not generated, compilation seems to have failed: {}\033[0m"sv, file);
@@ -270,7 +270,7 @@ int main(int argc, char* argv[]) {
                         auto cmd = std::format("{} {}"sv, dyn_format(compiler_cmds[0], file, out_path), include_flags);
                         
 						fs::remove(out_path);
-                        system(cmd.data());
+                        std::system(cmd.data());
 
 						if (not fs::exists(out_path)) {
 							print(std::format("\033[91m[cman] \033[31mError: Object file is not generated, compilation seems to have failed: {}\033[0m"sv, file));
@@ -297,7 +297,7 @@ int main(int argc, char* argv[]) {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[2], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Dynamic Library...\033[0m"sv);
-                system(final_cmd.data());
+                std::system(final_cmd.data());
             }
 
             break;
@@ -306,7 +306,7 @@ int main(int argc, char* argv[]) {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[3], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Static Library...\033[0m"sv);
-                system(final_cmd.data());
+                std::system(final_cmd.data());
             }
 
             break;
@@ -315,7 +315,7 @@ int main(int argc, char* argv[]) {
             if (compiler_cmds.size() >= 6) {
                 auto final_cmd = dyn_format(compiler_cmds[5], all_link_inputs, "out/program"sv);
                 std::println("\033[96m[cman] \033[36mLinking Final Executable...\033[0m"sv);
-                system(final_cmd.data());
+                std::system(final_cmd.data());
             }
 
             break;
