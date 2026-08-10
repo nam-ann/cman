@@ -90,6 +90,8 @@ lib/
         bin/
             some.lib
             some.a
+./
+    other.cdeps
 ```
 
 #### B. Compiler Template (`compiler.txt`)
@@ -117,18 +119,10 @@ lib /nologo /OUT:"{1}.lib" {0}
 link /nologo /OUT:"{1}.exe" {0}
 ```
 
-#### C. Root Dependency List (`deps.txt`)
-Gathers project `.cdeps` and environment module definitions into a single build entry point.
-
-```text
-<your cdeps>.cdeps
-<your library cdeps>.cdeps...
-```
-
 ### 4. Build Examples
 
 ```bash
-cman build exec deps.txt compiler.txt
+cman build exec <your cdeps>.cdeps compiler.txt
 ```
 
 ## Support
