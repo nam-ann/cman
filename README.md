@@ -67,7 +67,6 @@ When running `cman build`, specify one of the following compilation modes:
 Defines the directory layout and source files using indented tree paths and wildcards.
 
 ```text
-# cmain.cdeps
 src/
     *.cpp
 module/
@@ -85,7 +84,6 @@ lib/
 Defines command-line templates for your specific C++ toolchain using indexed placeholders:
 * `{0}`: Input source file / object inputs
 * `{1}`: Output object file / target binary
-* `{2}`: Optional output path for C++ Module interface (BMI/IFC)
 
 **Example for GCC (`gcc_compiler.txt`):**
 ```text
@@ -111,8 +109,8 @@ link /nologo /OUT:"{1}.exe" {0}
 Gathers project `.cdeps` and environment module definitions into a single build entry point.
 
 ```text
-<your project>.cdeps
-[ <your library>.cdeps ]...
+<your cdeps>.cdeps
+<your library cdeps>.cdeps...
 ```
 
 ### 4. Build Examples
