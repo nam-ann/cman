@@ -75,7 +75,7 @@ When running `cman build`, specify one of the following compilation modes:
 
 `cman` uses simple plain-text configuration files to drive the build pipeline.
 
-#### A. Target Dependencies (`<your project name>.cdeps`)
+#### A. Target Dependencies (`project.cdeps`)
 Defines the directory layout and source files using indented tree paths and wildcards.
 
 ```text
@@ -130,7 +130,7 @@ link /nologo /OUT:"{1}.exe" {0}
 ### 5. Build Examples
 
 ```bash
-cman build exec <your cdeps>.cdeps compiler.txt
+cman build exec project.cdeps compiler.txt
 ```
 
 ## Support
