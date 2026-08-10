@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="cman.vcxproj" Id="5e082cac-a1e7-45f5-a786-d3ca7f44082d" />
+</Solution>
