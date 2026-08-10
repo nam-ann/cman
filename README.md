@@ -1,6 +1,6 @@
 # cman
 
-An ultralightweight C++ build tool in pure C++23
+cman (C++ Manager) - An ultralightweight C++ build tool written in pure C++23.
 
 ## License
 
