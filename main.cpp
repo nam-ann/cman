@@ -119,7 +119,13 @@ static auto parse_tree_paths(std::vector<std::string> const& input, int indent_s
 
 template <typename... Args>
 static auto dyn_format(std::string_view fmt, Args&&... args) {
-    return std::vformat(fmt, std::make_format_args(args...));
+    try {
+        return std::vformat(fmt, std::make_format_args(args...));
+    }
+    catch (const std::format_error& e) {
+		std::println("\033[91m[cman] \033[31mError: Format error: {}\033[0m"sv, e.what());
+        std::exit(1);
+    }
 }
 
 std::unordered_map<std::string_view, int> const compile_type_map = {
