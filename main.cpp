@@ -122,8 +122,8 @@ static auto dyn_format(std::string_view fmt, Args&&... args) {
     try {
         return std::vformat(fmt, std::make_format_args(args...));
     }
-    catch (const std::format_error& e) {
-		std::println("\033[91m[cman] \033[31mError: Format error: {}\033[0m"sv, e.what());
+    catch (const std::format_error&) {
+		std::println("\033[91m[cman] \033[31mError: '{}' does not take {} arguments\033[0m"sv, fmt, sizeof...(args));
         std::exit(1);
     }
 }
