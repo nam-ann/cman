@@ -281,7 +281,7 @@ int main(int argc, char* argv[]) {
         if (compiler_cmds.size() >= 2) {
             for (auto const& file : cppm_files) {
                 auto const out_dir = fs::path(file);
-                auto const out_path = std::format("cman.cache/{}.cobj "sv, std::hash<fs::path>{}(out_dir));
+                auto const out_path = std::format("cman.cache/{}.cobj"sv, std::hash<fs::path>{}(out_dir));
 
                 if (needs_recompile(file, out_path)) {
                     auto cmd = std::format("{} {}"sv, dyn_format(compiler_cmds[1], file, out_path), include_flags);
@@ -297,7 +297,7 @@ int main(int argc, char* argv[]) {
                 }
                 else std::println("\033[90m[cman] Up-to-date Module: {}\033[0m"sv, file);
 
-                obj_files += out_path;
+                obj_files += std::format("{} ", out_path);
             }
         }
 
@@ -315,7 +315,7 @@ int main(int argc, char* argv[]) {
 
                 auto worker = [&compiler_cmds, &include_flags, &print](std::string_view file) {
                     auto const out_dir = fs::path(file);
-                    auto const out_path = std::format("cman.cache/{}.cobj "sv, std::hash<fs::path>{}(out_dir));
+                    auto const out_path = std::format("cman.cache/{}.cobj"sv, std::hash<fs::path>{}(out_dir));
 
                     if (needs_recompile(file, out_path)) {
                         print(std::format("\033[96m[cman] \033[36mCompiling Source: {}\033[0m"sv, file));
@@ -331,7 +331,7 @@ int main(int argc, char* argv[]) {
                     }
                     else print(std::format("\033[90m[cman] Up-to-date Source: {}\033[0m"sv, file));
 
-                    return out_path;
+                    return std::format("{} ", out_path);
                 };
 
                 for (auto const& file : cpp_files) {
