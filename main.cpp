@@ -219,16 +219,16 @@ int main(int argc, char* argv[]) {
                 if (path.ends_with(".inc"sv)) {
                     include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
                 }
-				else if (not fs::exists(path)) {
-					std::println("\033[93m[cman] \033[33mWarning: Dependency file does not exist: {}\033[0m"sv, path);
-					continue;
-				}
+                else if (not fs::exists(path)) {
+                    std::println("\033[93m[cman] \033[33mWarning: Dependency file does not exist: {}\033[0m"sv, path);
+                    continue;
+                }
                 else if (path.ends_with(".cdeps"sv)) {
                     if (auto it = std::find(dep_stack.begin(), dep_stack.end(), path); it != dep_stack.end()) {
-						if (path == dep_stack.back()) {
-							std::println("\033[93m[cman] \033[33mWarning: Self dependency detected in {}\033[0m"sv, path);
+                        if (path == dep_stack.back()) {
+                            std::println("\033[93m[cman] \033[33mWarning: Self dependency detected in {}\033[0m"sv, path);
                             continue;
-						}
+                        }
 
                         std::println("\033[93m[cman] \033[33mWarning: Circular dependency detected in {}\033[0m"sv, path);
 
@@ -250,10 +250,16 @@ int main(int argc, char* argv[]) {
                 else if (path.ends_with(".lib"sv) or path.ends_with(".a"sv)) {
                     static_lib_files += std::format("\"{}\" "sv, path);
                 }
-                else if (path.ends_with(".cpp"sv) or path.ends_with(".cxx"sv) or path.ends_with(".c"sv)) {
+                else if (path.ends_with(".cpp"sv) or path.ends_with(".cxx"sv) or path.ends_with(".c"sv) or path.ends_with(".cc"sv)) {
                     cpp_files.emplace_back(std::move(path));
                 }
-                else cppm_files.emplace_back(std::move(path));
+                else if (path.ends_with(".cppm"sv) or path.ends_with(".ccm"sv) or path.ends_with(".ixx"sv)) {
+                    cppm_files.emplace_back(std::move(path));
+                }
+                else if (path.starts_with("https://github.com/"sv) or path.starts_with("github.com/"sv)) {
+                    std::system(std::format("git clone {}", path).data());
+                }
+                else std::println("\033[93m[cman] \033[33mWarning: Unknown dependencies");
             }
         };
 
