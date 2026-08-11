@@ -299,7 +299,7 @@ int main(int argc, char* argv[]) {
 
             auto print = [&print_mutex, &print_buffer](std::string_view msg) {
                 std::lock_guard lock(print_mutex);
-                print_buffer += msg;
+                print_buffer += std::format("{}\n", msg);
             };
 
             auto printer = std::jthread([&print_mutex, &print_buffer](std::stop_token stop) {
@@ -311,7 +311,7 @@ int main(int argc, char* argv[]) {
                         buffer.swap(print_buffer);
                     }
 
-                    std::println("{}", buffer);
+                    if (not buffer.empty()) std::println("{}", buffer);
                     std::this_thread::sleep_for(10ms);
                 }
             });
