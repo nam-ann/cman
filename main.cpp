@@ -192,6 +192,15 @@ int main(int argc, char* argv[]) {
         auto const deps_path = fs::path(argv[3]);
         auto const compiler_path = fs::path(argv[4]);
 
+		if (not fs::exists(deps_path)) {
+			std::println("\033[91m[cman] \033[31mError: Dependencies file does not exist: {}\033[0m"sv, deps_path);
+			return 1;
+		}
+		if (not fs::exists(compiler_path)) {
+			std::println("\033[91m[cman] \033[31mError: Compiler file does not exist: {}\033[0m"sv, compiler_path);
+			return 1;
+		}
+
         auto const cdeps_lines = read_lines(deps_path);
         auto const compiler_cmds = read_lines(compiler_path);
 
