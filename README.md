@@ -120,11 +120,11 @@ g++ {0} -o OUT -lstdc++exp -Wl,--allow-multiple-definition
 **Example for MSVC:**
 ```text
 cl /std:c++latest /nologo /EHsc /MT /c "{0}" /Fo"{1}" /sourceDependencies "{1}.d"
-cl /std:c++latest /nologo /EHsc /MT /c /TP /interface "{0}" /Fo"{1}" /sourceDependencies "{1}.d" /ifcOutput "{1}"
-cl /std:c++latest /nologo /EHsc /MT /LD {0} /Fe OUT.dll
-lib /nologo /OUT:OUT.lib {0}
+cl /std:c++latest /nologo /EHsc /MT /c /TP /interface "{0}" /Fo"{1}" /sourceDependencies "{1}.d"
+cl /std:c++latest /nologo /EHsc /MT /LD {0} /Fe program.dll
+lib /nologo /OUT:program.lib {0}
 /I "{0}"
-link /nologo /OUT:OUT.exe {0}
+link /nologo /OUT:program.exe {0}
 ```
 
 ### 5. Build Examples
