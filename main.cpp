@@ -1,6 +1,7 @@
 import std;
 
 namespace fs = std::filesystem;
+using namespace std::chrono_literals;
 using namespace std::string_literals;
 using namespace std::string_view_literals;
 
@@ -292,13 +293,24 @@ int main(int argc, char* argv[]) {
         }
 
         {
-            std::vector<std::future<std::string>> futures;
+            auto futures = std::vector<std::future<std::string>>();
             auto print_mutex = std::mutex();
+            auto print_buffer = ""s;
 
-            auto print = [&print_mutex](std::string_view msg) {
+            auto print = [&print_mutex, &print_buffer](std::string_view msg) {
                 std::lock_guard lock(print_mutex);
-                std::println("{}", msg);
+                print_buffer += msg;
             };
+
+            auto printer = std::jthread([&print_mutex, &print_buffer](std::stop_token stop) {
+                while (not stop.stop_requested()) {
+                    std::lock_guard lock(print_mutex);
+                    auto buffer = std::string(std::move(print_buffer));
+                    std::println("{}", buffer);
+
+                    std::this_thread::sleep_for(10ms);
+                }
+            });
 
             if (compiler_cmds.size() >= 1) {
                 futures.reserve(cpp_files.size());
