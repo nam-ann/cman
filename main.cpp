@@ -304,10 +304,14 @@ int main(int argc, char* argv[]) {
 
             auto printer = std::jthread([&print_mutex, &print_buffer](std::stop_token stop) {
                 while (not stop.stop_requested()) {
-                    std::lock_guard lock(print_mutex);
-                    auto buffer = std::string(std::move(print_buffer));
-                    std::println("{}", buffer);
+                    auto buffer = ""s;
 
+                    {
+                        std::lock_guard lock(print_mutex);
+                        buffer.swap(print_buffer);
+                    }
+
+                    std::println("{}", buffer);
                     std::this_thread::sleep_for(10ms);
                 }
             });
