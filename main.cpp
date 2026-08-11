@@ -136,12 +136,9 @@ std::unordered_map<std::string_view, int> const compile_type_map = {
 
 std::unordered_map<std::string_view, int> const to_do_map = {
     {"help"sv,    0},
-    {"version"sv, 1},
-    {"clean"sv,   2},
-    {"build"sv,   3}
+    {"clean"sv,   1},
+    {"build"sv,   2}
 };
-
-#define CMAN_VERSION "26.1"
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -168,10 +165,8 @@ int main(int argc, char* argv[]) {
         std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
         break;
     
-    case 1: std::println("\033[96m[cman] \033[36mVersion: " CMAN_VERSION "\033[0m"sv); break;
-    case 2: fs::remove_all("cman.cache"); break;
-    
-    case 3: {
+    case 1: fs::remove_all("cman.cache"); break;
+    case 2: {
         auto const compile_type = compile_type_map.at(argv[2]);
 
         if (argc < 5) {
