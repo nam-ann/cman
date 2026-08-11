@@ -225,11 +225,14 @@ int main(int argc, char* argv[]) {
 
         auto scan_deps = [&](this auto&& self, std::vector<std::string>& deps_paths) -> void {
             for (auto& path : deps_paths) {
-				if (not fs::exists(path)) {
+                if (path.ends_with(".inc"sv)) {
+                    include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
+                }
+				else if (not fs::exists(path)) {
 					std::println("\033[93m[cman] \033[33mWarning: Dependency file does not exist: {}\033[0m"sv, path);
 					continue;
 				}
-                if (path.ends_with(".cdeps"sv)) {
+                else if (path.ends_with(".cdeps"sv)) {
                     if (auto it = std::find(dep_stack.begin(), dep_stack.end(), path); it != dep_stack.end()) {
 						if (path == dep_stack.back()) {
 							std::println("\033[93m[cman] \033[33mWarning: Self dependency detected in {}\033[0m"sv, path);
@@ -255,9 +258,6 @@ int main(int argc, char* argv[]) {
                 }
                 else if (path.ends_with(".lib"sv) or path.ends_with(".a"sv)) {
                     static_lib_files += std::format("\"{}\" "sv, path);
-                }
-                else if (path.ends_with(".inc"sv)) {
-                    include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
                 }
                 else if (path.ends_with(".cpp"sv) or path.ends_with(".cxx"sv)) {
                     cpp_files.emplace_back(std::move(path));
