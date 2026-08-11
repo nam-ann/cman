@@ -225,6 +225,10 @@ int main(int argc, char* argv[]) {
 
         auto scan_deps = [&](this auto&& self, std::vector<std::string>& deps_paths) -> void {
             for (auto& path : deps_paths) {
+				if (not fs::exists(path)) {
+					std::println("\033[93m[cman] \033[33mWarning: Dependency file does not exist: {}\033[0m"sv, path);
+					continue;
+				}
                 if (path.ends_with(".cdeps"sv)) {
                     if (auto it = std::find(dep_stack.begin(), dep_stack.end(), path); it != dep_stack.end()) {
 						if (path == dep_stack.back()) {
