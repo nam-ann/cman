@@ -219,6 +219,10 @@ int main(int argc, char* argv[]) {
                 if (path.ends_with(".inc"sv)) {
                     include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
                 }
+                else if (path.starts_with("https://github.com/"sv) or path.starts_with("github.com/"sv)) {
+                    std::println("Cloning github repo: {}", path);
+                    std::system(std::format("git clone \"{}\" cman.lib", path).data());
+                }
                 else if (not fs::exists(path)) {
                     std::println("\033[93m[cman] \033[33mWarning: Dependency file does not exist: {}\033[0m"sv, path);
                     continue;
@@ -255,10 +259,6 @@ int main(int argc, char* argv[]) {
                 }
                 else if (path.ends_with(".cppm"sv) or path.ends_with(".ccm"sv) or path.ends_with(".ixx"sv)) {
                     cppm_files.emplace_back(std::move(path));
-                }
-                else if (path.starts_with("https://github.com/"sv) or path.starts_with("github.com/"sv)) {
-                    std::println("Cloning github repo: {}", path);
-                    std::system(std::format("git clone \"{}\" cman.lib", path).data());
                 }
                 else std::println("\033[93m[cman] \033[33mWarning: Unknown dependencies");
             }
