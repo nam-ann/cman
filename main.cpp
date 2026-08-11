@@ -162,7 +162,7 @@ int main(int argc, char* argv[]) {
         std::println("    \033[96m|> \033[36m---- Compile type ----\033[0m"sv);
         std::println("\033[96m[cman] \033[36mdynlnk\033[90m  # Compile and link as a dynamic library (dll/so)\033[0m"sv);
         std::println("\033[96m[cman] \033[36mstatlnk\033[90m # Compile and link as a static library (lib/a)\033[0m"sv);
-        std::println("\033[96m[cman] \033[36mnormal\033[90m  # Compile and link as an executable\033[0m"sv);
+        std::println("\033[96m[cman] \033[36mexec\033[90m    # Compile and link as an executable\033[0m"sv);
         break;
     
     case 1: fs::remove_all("cman.cache"); break;
