@@ -111,20 +111,20 @@ And lines
 ```text
 g++ -std=c++23 -fmodules-ts -c "{0}" -o "{1}" -MMD -MF "{1}.d"
 g++ -std=c++23 -fmodules-ts -c "{0}" -o "{1}" -MMD -MF "{1}.d"
-g++ -shared {0} -o "{1}.dll" -lstdc++exp -Wl,--allow-multiple-definition
-ar rcs "{1}.a" {0}
--I"{0}"
-g++ {0} -o "{1}.exe" -lstdc++exp -Wl,--allow-multiple-definition
+g++ -shared {0} -o OUT.so -lstdc++exp -Wl,--allow-multiple-definition
+ar rcs OUT.a {0}
+-I "{0}"
+g++ {0} -o OUT -lstdc++exp -Wl,--allow-multiple-definition
 ```
 
 **Example for MSVC:**
 ```text
 cl /std:c++latest /nologo /EHsc /MT /c "{0}" /Fo"{1}" /sourceDependencies "{1}.d"
-cl /std:c++latest /nologo /EHsc /MT /c /TP /interface "{0}" /Fo"{1}" /sourceDependencies "{1}.d"
-cl /std:c++latest /nologo /EHsc /MT /LD {0} /Fe"{1}.dll"
-lib /nologo /OUT:"{1}.lib" {0}
-/I"{0}"
-link /nologo /OUT:"{1}.exe" {0}
+cl /std:c++latest /nologo /EHsc /MT /c /TP /interface "{0}" /Fo"{1}" /sourceDependencies "{1}.d" /ifcOutput "{1}"
+cl /std:c++latest /nologo /EHsc /MT /LD {0} /Fe OUT.dll
+lib /nologo /OUT:OUT.lib {0}
+/I "{0}"
+link /nologo /OUT:OUT.exe {0}
 ```
 
 ### 5. Build Examples
