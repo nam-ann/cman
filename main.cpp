@@ -259,7 +259,7 @@ int main(int argc, char* argv[]) {
                 else if (path.starts_with("https://github.com/"sv) or path.starts_with("github.com/"sv)) {
                     if (path.ends_with(".tar") or path.ends_with(".7z") or path.ends_with(".gz") or path.ends_with(".zip")) {
                         std::println("Downloading content: {}", path);
-                        std::system(std::format("curl -L --fail --output glfw.tar.gz \"{}\"", path).data());
+                        std::system(std::format("curl -L --fail --output cman.lib \"{}\"", path).data());
                     }
                     else {
                         std::println("Cloning github repo: {}", path);
