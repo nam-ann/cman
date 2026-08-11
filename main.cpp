@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
         break;
     
     case 1: std::println("\033[96m[cman] \033[36mVersion: " CMAN_VERSION "\033[0m"sv); break;
-    case 2: fs::remove_all("cman.cache"); break;
+    case 2: fs::remove_all("cobj.cache"); break;
     
     case 3: {
         auto const compile_type = compile_type_map.at(argv[2]);
@@ -275,13 +275,13 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        fs::create_directories("cman.cache"sv);
+        fs::create_directories("cobj.cache"sv);
         auto obj_files = ""s;
 
         if (compiler_cmds.size() >= 2) {
             for (auto const& file : cppm_files) {
                 auto const out_dir = fs::path(file);
-                auto const out_path = std::format("cman.cache/{}.cobj "sv, std::hash<fs::path>{}(out_dir));
+                auto const out_path = std::format("cobj.cache/{}.cobj "sv, std::hash<fs::path>{}(out_dir));
 
                 if (needs_recompile(file, out_path)) {
                     auto cmd = std::format("{} {}"sv, dyn_format(compiler_cmds[1], file, out_path), include_flags);
@@ -315,7 +315,7 @@ int main(int argc, char* argv[]) {
 
                 auto worker = [&compiler_cmds, &include_flags, &print](std::string_view file) {
                     auto const out_dir = fs::path(file);
-                    auto const out_path = std::format("cman.cache/{}.cobj "sv, std::hash<fs::path>{}(out_dir));
+                    auto const out_path = std::format("cobj.cache/{}.cobj "sv, std::hash<fs::path>{}(out_dir));
 
                     if (needs_recompile(file, out_path)) {
                         print(std::format("\033[96m[cman] \033[36mCompiling Source: {}\033[0m"sv, file));
