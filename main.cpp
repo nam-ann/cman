@@ -257,7 +257,14 @@ int main(int argc, char* argv[]) {
                     cppm_files.emplace_back(std::move(path));
                 }
                 else if (path.starts_with("https://github.com/"sv) or path.starts_with("github.com/"sv)) {
-                    std::system(std::format("git clone {} cman.lib", path).data());
+                    if (path.ends_with(".tar") or path.ends_with(".7z") or path.ends_with(".gz") or path.ends_with(".zip")) {
+                        std::println("Downloading content: {}", path);
+                        std::system(std::format("curl -L --fail --output glfw.tar.gz \"{}\"", path).data());
+                    }
+                    else {
+                        std::println("Cloning github repo: {}", path);
+                        std::system(std::format("git clone \"{}\" cman.lib", path).data());
+                    }
                 }
                 else std::println("\033[93m[cman] \033[33mWarning: Unknown dependencies");
             }
