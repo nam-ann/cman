@@ -219,9 +219,12 @@ int main(int argc, char* argv[]) {
                 if (path.ends_with(".inc"sv)) {
                     include_paths.emplace_back(std::move(path.erase(path.size() - 4)));
                 }
-                else if (path.starts_with("https://github.com/"sv) or path.starts_with("github.com/"sv)) {
-                    std::println("\033[96m[cman] \033[36mCloning github repo: {}\033[0m", path);
-                    std::system(std::format("git clone \"{}\" cman.lib/{}", path, fs::path(path).stem().string()).data());
+                else if (path.starts_with("https://github.com/"sv)) {
+                    auto out_path = std::format("cman.lib/{}"sv, fs::path(path).stem().string());
+                    if (fs::exists(out_path)) continue;
+
+                    std::println("\033[96m[cman] \033[36mCloning github repository: {}\033[0m"sv, path);
+                    std::system(std::format("git clone \"{}\" cman.lib/{}"sv, path, out_path).data());
                 }
                 else if (not fs::exists(path)) {
                     std::println("\033[93m[cman] \033[33mWarning: Dependency file does not exist: {}\033[0m"sv, path);
