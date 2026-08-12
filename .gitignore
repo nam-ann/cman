@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /cman.slnx
 /cman.vcxproj
 /cman.vcxproj.filters
+/cman.cache
+/cman.lib/libarchive-3.8.9
